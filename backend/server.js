@@ -1,5 +1,5 @@
 /**
- * PictoChat Clone - Backend Server
+ * PictoChatter - Backend Server
  * 
  * Express HTTP server with WebSocket support for real-time drawing and chat.
  * Features:
@@ -108,6 +108,7 @@ app.get('/api/rooms/:roomId/history', (req, res) => {
 wss.on('connection', (ws) => {
   let playerId = null;
   let playerName = null;
+  let playerColor = 'blue';
   let currentRoomId = null;
   let lastDisconnectTime = null;
 
@@ -201,6 +202,7 @@ wss.on('connection', (ws) => {
     playerId = pid || uuidv4();
     playerName = pname || `Player ${playerId.slice(0, 4)}`;
     currentRoomId = roomId;
+    playerColor = message.playerColor || 'blue';
 
     // Check if room exists
     if (!roomManager.roomExists(roomId)) {
@@ -212,7 +214,7 @@ wss.on('connection', (ws) => {
     }
 
     // Add player to room
-    const player = { playerId, playerName, ws, isDrawing: false };
+    const player = { playerId, playerName, playerColor, ws, isDrawing: false };
     const added = roomManager.addPlayer(roomId, player);
     
     if (!added) {
@@ -231,7 +233,8 @@ wss.on('connection', (ws) => {
       type: 'roomState',
       ...roomState,
       playerId, // Confirm their ID
-      playerName
+      playerName,
+      playerColor
     }));
 
     // Broadcast join notification to other players
@@ -239,6 +242,7 @@ wss.on('connection', (ws) => {
       type: 'userJoined',
       playerId,
       playerName,
+      playerColor,
       timestamp: Date.now()
     }, playerId);
   }
@@ -252,6 +256,7 @@ wss.on('connection', (ws) => {
     playerId = pid;
     playerName = pname;
     currentRoomId = roomId;
+    playerColor = message.playerColor || 'blue';
 
     // Check if room exists
     if (!roomManager.roomExists(roomId)) {
@@ -263,7 +268,7 @@ wss.on('connection', (ws) => {
     }
 
     // Add player back to room
-    const player = { playerId, playerName, ws, isDrawing: false };
+    const player = { playerId, playerName, playerColor, ws, isDrawing: false };
     const added = roomManager.addPlayer(roomId, player);
     
     if (!added) {
@@ -290,7 +295,8 @@ wss.on('connection', (ws) => {
       ...roomState,
       missedEvents,
       playerId,
-      playerName
+      playerName,
+      playerColor
     }));
 
     // Broadcast rejoin notification
@@ -298,6 +304,7 @@ wss.on('connection', (ws) => {
       type: 'userJoined',
       playerId,
       playerName,
+      playerColor,
       isRejoin: true,
       timestamp: Date.now()
     }, playerId);
@@ -365,6 +372,7 @@ wss.on('connection', (ws) => {
       text: text.trim(),
       playerId,
       playerName,
+      playerColor,
       timestamp: Date.now()
     };
 
@@ -484,7 +492,7 @@ async function startServer() {
     server.listen(PORT, () => {
       console.log(`
 ╔════════════════════════════════════════════════╗
-║           PictoChat Clone Server               ║
+║            PictoChatter Server                 ║
 ║────────────────────────────────────────────────║
 ║  HTTP Server: http://localhost:${PORT}            ║
 ║  WebSocket:   ws://localhost:${PORT}              ║

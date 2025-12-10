@@ -181,6 +181,7 @@ class RoomManager {
     const activePlayers = Array.from(activeRoom.players.values()).map(p => ({
       playerId: p.playerId,
       playerName: p.playerName,
+      playerColor: p.playerColor || 'blue',
       isDrawing: p.isDrawing || false
     }));
 
@@ -217,6 +218,7 @@ class RoomManager {
       roomId,
       message.playerId,
       message.playerName,
+      message.playerColor || 'blue',
       message.text,
       message.timestamp
     );

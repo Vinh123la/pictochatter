@@ -5,11 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
-  <title>PictoChat</title>
+  <title>PictoChatter</title>
   <link rel="stylesheet" href="styles.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
   <div id="app">
@@ -18,11 +15,28 @@
       <div class="ds-frame">
         <div class="ds-screen top-screen">
           <div class="screen-content">
-            <h1 class="title">PictoChat</h1>
+            <h1 class="title">PictoChatter</h1>
             <div class="subtitle">Select a chat room</div>
             <div class="player-setup">
-              <label for="player-name-input">Your Name:</label>
-              <input type="text" id="player-name-input" maxlength="12" placeholder="Player" autocomplete="off">
+              <div class="player-setup-row">
+                <label for="player-name-input">Your Name:</label>
+                <input type="text" id="player-name-input" maxlength="12" placeholder="Player" autocomplete="off">
+              </div>
+              <div class="player-setup-row">
+                <span class="color-select-label">Your Color:</span>
+                <div class="player-color-picker">
+                  <button class="player-color-btn active" data-color="blue" style="background: #5080c0;" title="Blue"></button>
+                  <button class="player-color-btn" data-color="red" style="background: #d06060;" title="Red"></button>
+                  <button class="player-color-btn" data-color="orange" style="background: #d89050;" title="Orange"></button>
+                  <button class="player-color-btn" data-color="yellow" style="background: #c0a030;" title="Yellow"></button>
+                  <button class="player-color-btn" data-color="green" style="background: #50a060;" title="Green"></button>
+                  <button class="player-color-btn" data-color="cyan" style="background: #40a0a0;" title="Cyan"></button>
+                  <button class="player-color-btn" data-color="purple" style="background: #8060b0;" title="Purple"></button>
+                  <button class="player-color-btn" data-color="pink" style="background: #c06090;" title="Pink"></button>
+                  <button class="player-color-btn" data-color="brown" style="background: #907050;" title="Brown"></button>
+                  <button class="player-color-btn" data-color="grey" style="background: #707070;" title="Grey"></button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -38,7 +52,7 @@
               <div class="custom-room-header">Or create your own:</div>
               <div class="custom-room-form">
                 <input type="text" id="custom-room-name" maxlength="20" placeholder="Room name..." autocomplete="off">
-                <button id="create-room-btn" class="ds-btn">+ Create</button>
+                <button id="create-room-btn" class="ds-btn primary">+ Create</button>
               </div>
             </div>
             
@@ -80,34 +94,34 @@
             <!-- Tools -->
             <div class="tools-bar">
               <div class="tool-group">
-                <div class="tool-label">Tool:</div>
+                <div class="tool-label">Tool</div>
                 <div class="tool-picker">
                   <button class="tool-btn active" data-tool="pen" title="Pen">✏️</button>
                   <button class="tool-btn" data-tool="brush" title="Brush">🖌️</button>
-                  <button class="tool-btn" data-tool="line" title="Line">📏</button>
+                  <button class="tool-btn" data-tool="line" title="Line">╱</button>
                   <button class="tool-btn" data-tool="rect" title="Rectangle">▢</button>
                   <button class="tool-btn" data-tool="circle" title="Circle">○</button>
                   <button class="tool-btn" data-tool="fill" title="Fill">🪣</button>
-                  <button class="tool-btn" data-tool="eraser" title="Eraser">🧽</button>
+                  <button class="tool-btn" data-tool="eraser" title="Eraser">✕</button>
                 </div>
               </div>
               
               <div class="tool-group">
-                <div class="tool-label">Color:</div>
+                <div class="tool-label">Color</div>
                 <div class="color-picker">
-                  <button class="color-btn active" data-color="#000000" style="background: #000000;"></button>
-                  <button class="color-btn" data-color="#FF0000" style="background: #FF0000;"></button>
-                  <button class="color-btn" data-color="#0000FF" style="background: #0000FF;"></button>
-                  <button class="color-btn" data-color="#00AA00" style="background: #00AA00;"></button>
-                  <button class="color-btn" data-color="#FFAA00" style="background: #FFAA00;"></button>
-                  <button class="color-btn" data-color="#AA00AA" style="background: #AA00AA;"></button>
-                  <button class="color-btn" data-color="#00AAAA" style="background: #00AAAA;"></button>
-                  <button class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF; border: 1px solid #999;"></button>
+                  <button class="color-btn active" data-color="#000000" style="background: #222222;"></button>
+                  <button class="color-btn" data-color="#e05050" style="background: #e05050;"></button>
+                  <button class="color-btn" data-color="#5080e0" style="background: #5080e0;"></button>
+                  <button class="color-btn" data-color="#50a050" style="background: #50a050;"></button>
+                  <button class="color-btn" data-color="#e0a030" style="background: #e0a030;"></button>
+                  <button class="color-btn" data-color="#a060c0" style="background: #a060c0;"></button>
+                  <button class="color-btn" data-color="#40b0b0" style="background: #40b0b0;"></button>
+                  <button class="color-btn" data-color="#ffffff" style="background: #ffffff;"></button>
                 </div>
               </div>
               
               <div class="tool-group">
-                <div class="tool-label">Size:</div>
+                <div class="tool-label">Size</div>
                 <div class="size-picker">
                   <button class="size-btn" data-size="1"><span class="dot s1"></span></button>
                   <button class="size-btn active" data-size="3"><span class="dot s3"></span></button>
@@ -118,15 +132,15 @@
               </div>
               
               <div class="tool-group actions">
-                <button id="undo-btn" class="ds-btn action-btn" title="Undo">↩️ Undo</button>
-                <button id="clear-btn" class="ds-btn action-btn" title="Clear">🗑️ Clear</button>
+                <button id="undo-btn" class="ds-btn action-btn" title="Undo">↩ Undo</button>
+                <button id="clear-btn" class="ds-btn action-btn" title="Clear">Clear</button>
               </div>
             </div>
 
             <!-- Message Input -->
             <div class="message-bar">
               <input type="text" id="message-input" maxlength="140" placeholder="Type a message..." autocomplete="off">
-              <button id="send-btn" class="ds-btn">Send</button>
+              <button id="send-btn" class="ds-btn primary">Send</button>
             </div>
 
             <!-- Connection Status -->

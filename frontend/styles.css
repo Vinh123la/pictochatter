@@ -1,9 +1,15 @@
 /**
- * PictoChat Clone - Styles
+ * PictoChatter - Styles
  * 
  * Authentic Nintendo DS PictoChat aesthetic
- * With enhanced mobile support and new drawing tools UI
+ * - White and grey color scheme
+ * - Grid/checkered backgrounds
+ * - Room-based accent colors (Frutiger Aero / Y2K tech)
+ * - Per-player name colors
+ * - VT323 retro pixel font
  */
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 /* Reset & Base */
 *, *::before, *::after {
@@ -13,63 +19,127 @@
 }
 
 :root {
-  /* DS Color Palette */
-  --ds-casing: #c8c8c8;
-  --ds-casing-dark: #a0a0a0;
-  --ds-casing-light: #e0e0e0;
-  --ds-screen-bg: #9bbc0f;
-  --ds-screen-light: #8bac0f;
-  --ds-screen-dark: #306230;
-  --ds-screen-darkest: #0f380f;
-  --ds-hinge: #888888;
-  --ds-border: #404040;
+  /* Core palette - white and grey */
+  --white: #ffffff;
+  --grey-100: #f8f8f8;
+  --grey-200: #eeeeee;
+  --grey-300: #e0e0e0;
+  --grey-400: #cccccc;
+  --grey-500: #aaaaaa;
+  --grey-600: #888888;
+  --grey-700: #666666;
+  --grey-800: #444444;
+  --grey-900: #222222;
   
-  /* Modern readable variant */
-  --screen-bg: #c4cfa1;
-  --screen-text: #2d3718;
-  --screen-accent: #5a6e2e;
-  --canvas-bg: #e8ebd8;
-  --input-bg: #d8dcc8;
-  --btn-bg: #b8c090;
-  --btn-hover: #a8b080;
-  --btn-active: #98a070;
+  /* Room accent colors - Frutiger Aero / Y2K pastel */
+  --room-pink: #e891b0;
+  --room-pink-light: #f8d0e0;
+  --room-pink-pale: #fdf0f5;
   
-  /* Status colors */
-  --status-connected: #4a7c23;
-  --status-disconnected: #a03030;
-  --status-connecting: #b08020;
+  --room-blue: #70b0d8;
+  --room-blue-light: #b8d8f0;
+  --room-blue-pale: #f0f8ff;
+  
+  --room-orange: #e8a860;
+  --room-orange-light: #f8d8a8;
+  --room-orange-pale: #fffaf0;
+  
+  --room-green: #80c080;
+  --room-green-light: #c0e8c0;
+  --room-green-pale: #f0fff0;
+  
+  /* Player name colors - 10 options */
+  --player-red: #d06060;
+  --player-orange: #d89050;
+  --player-yellow: #c0a030;
+  --player-green: #50a060;
+  --player-cyan: #40a0a0;
+  --player-blue: #5080c0;
+  --player-purple: #8060b0;
+  --player-pink: #c06090;
+  --player-brown: #907050;
+  --player-grey: #707070;
+  
+  /* Current room accent (default to blue, changed by JS) */
+  --accent: var(--room-blue);
+  --accent-light: var(--room-blue-light);
+  --accent-pale: var(--room-blue-pale);
+  
+  /* Functional colors */
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --border-color: #cccccc;
+  --border-dark: #999999;
+  
+  /* Status */
+  --status-connected: #70b870;
+  --status-disconnected: #d07070;
+  --status-connecting: #d0a050;
   
   /* Touch targets */
   --touch-min: 44px;
+  
+  /* DS-like dimensions */
+  --ds-radius: 4px;
+}
+
+/* Room theme classes */
+.room-theme-pink {
+  --accent: var(--room-pink);
+  --accent-light: var(--room-pink-light);
+  --accent-pale: var(--room-pink-pale);
+}
+
+.room-theme-blue {
+  --accent: var(--room-blue);
+  --accent-light: var(--room-blue-light);
+  --accent-pale: var(--room-blue-pale);
+}
+
+.room-theme-orange {
+  --accent: var(--room-orange);
+  --accent-light: var(--room-orange-light);
+  --accent-pale: var(--room-orange-pale);
+}
+
+.room-theme-green {
+  --accent: var(--room-green);
+  --accent-light: var(--room-green-light);
+  --accent-pale: var(--room-green-pale);
 }
 
 html {
-  /* Prevent pull-to-refresh on mobile */
   overscroll-behavior: none;
 }
 
 body {
   font-family: 'VT323', monospace;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+  font-size: 18px;
   min-height: 100vh;
   min-height: -webkit-fill-available;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
-  color: var(--screen-text);
-  
-  /* Prevent text selection while drawing */
+  padding: 16px;
+  color: var(--text-primary);
   -webkit-user-select: none;
   user-select: none;
-  
-  /* Smooth scrolling */
   -webkit-overflow-scrolling: touch;
+  
+  /* Checkered grid background like DS */
+  background-color: var(--grey-200);
+  background-image: 
+    linear-gradient(45deg, var(--grey-300) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--grey-300) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--grey-300) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--grey-300) 75%);
+  background-size: 16px 16px;
+  background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
 }
 
 #app {
   width: 100%;
-  max-width: 580px;
+  max-width: 540px;
 }
 
 /* Screen Transitions */
@@ -79,172 +149,221 @@ body {
 
 .screen.active {
   display: block;
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.2s ease;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* DS Frame Styling */
+/* DS Frame - Clean white/grey design */
 .ds-frame {
-  background: linear-gradient(180deg, var(--ds-casing-light) 0%, var(--ds-casing) 20%, var(--ds-casing-dark) 100%);
-  border-radius: 16px;
-  padding: 16px;
+  background: linear-gradient(180deg, var(--grey-300) 0%, var(--grey-400) 100%);
+  border-radius: 12px;
+  padding: 12px;
   box-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+    0 4px 20px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .ds-screen {
-  background: var(--ds-border);
-  border-radius: 8px;
-  padding: 4px;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  background: var(--grey-600);
+  border-radius: 6px;
+  padding: 3px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .ds-screen .screen-content {
-  background: var(--screen-bg);
-  border-radius: 4px;
+  background: var(--white);
+  border-radius: 3px;
   padding: 12px;
-  min-height: 160px;
+  min-height: 150px;
   position: relative;
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.05);
-  
-  /* LCD scanline effect */
-  background-image: 
-    linear-gradient(var(--screen-bg) 50%, rgba(0, 0, 0, 0.02) 50%);
-  background-size: 100% 4px;
 }
 
 .ds-hinge {
-  height: 20px;
-  background: linear-gradient(90deg, 
-    var(--ds-casing) 0%, 
-    var(--ds-hinge) 20%,
-    var(--ds-hinge) 80%,
-    var(--ds-casing) 100%
-  );
-  margin: 8px -16px;
+  height: 18px;
+  background: linear-gradient(180deg, var(--grey-400) 0%, var(--grey-500) 50%, var(--grey-400) 100%);
+  margin: 8px -12px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .ds-hinge::before {
   content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60%;
-  height: 4px;
-  background: linear-gradient(180deg, #666 0%, #888 50%, #666 100%);
+  width: 50%;
+  height: 3px;
+  background: linear-gradient(180deg, var(--grey-600) 0%, var(--grey-500) 100%);
   border-radius: 2px;
 }
 
-/* Room Select Screen */
+/* Title Screen */
 .title {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 22px;
+  font-family: 'VT323', monospace;
+  font-size: 36px;
+  font-weight: 400;
   text-align: center;
-  color: var(--screen-darkest);
-  text-shadow: 2px 2px 0 var(--screen-accent);
-  margin-bottom: 8px;
+  color: var(--grey-700);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
 }
 
 .subtitle {
   text-align: center;
   font-size: 18px;
-  color: var(--screen-accent);
-  margin-bottom: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
 }
 
+/* Player Setup */
 .player-setup {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 12px;
   margin-top: 12px;
 }
 
+.player-setup-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .player-setup label {
   font-size: 18px;
-  color: var(--screen-text);
+  color: var(--text-secondary);
 }
 
 .player-setup input {
   font-family: 'VT323', monospace;
-  font-size: 18px;
+  font-size: 20px;
   padding: 8px 12px;
-  border: 2px solid var(--ds-border);
-  border-radius: 4px;
-  background: var(--input-bg);
-  color: var(--screen-text);
+  border: 2px solid var(--border-color);
+  border-radius: var(--ds-radius);
+  background: var(--white);
+  color: var(--text-primary);
   width: 140px;
   min-height: var(--touch-min);
 }
 
 .player-setup input:focus {
   outline: none;
-  border-color: var(--screen-accent);
+  border-color: var(--accent);
+}
+
+/* Player Color Picker */
+.color-select-label {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.player-color-picker {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.player-color-btn {
+  width: 28px;
+  height: 28px;
+  border: 2px solid var(--white);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.1s;
+  touch-action: manipulation;
+  box-shadow: 0 0 0 1px var(--grey-400);
+}
+
+.player-color-btn:hover {
+  transform: scale(1.15);
+}
+
+.player-color-btn.active {
+  box-shadow: 0 0 0 3px var(--grey-700);
+  transform: scale(1.15);
 }
 
 /* Room List */
 .room-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  padding: 8px 0;
-  max-height: 180px;
+  gap: 8px;
+  padding: 4px 0;
+  max-height: 200px;
   overflow-y: auto;
 }
 
 .room-btn {
   font-family: 'VT323', monospace;
-  font-size: 18px;
-  padding: 12px 10px;
-  border: 3px solid var(--ds-border);
-  border-radius: 8px;
-  background: var(--btn-bg);
-  color: var(--screen-text);
+  font-size: 20px;
+  padding: 14px 10px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--ds-radius);
+  background: var(--white);
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.1s ease;
   text-align: center;
   min-height: var(--touch-min);
-  box-shadow: 
-    0 3px 0 var(--ds-border),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  
-  /* Prevent double-tap zoom */
   touch-action: manipulation;
 }
 
 .room-btn:hover {
-  background: var(--btn-hover);
-  transform: translateY(1px);
-  box-shadow: 
-    0 2px 0 var(--ds-border),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: var(--grey-100);
 }
 
 .room-btn:active {
-  background: var(--btn-active);
-  transform: translateY(3px);
-  box-shadow: 
-    0 0 0 var(--ds-border),
-    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  background: var(--grey-200);
+}
+
+/* Room button accent colors */
+.room-btn[data-room-id="chat-a"] {
+  border-color: var(--room-pink);
+  background: var(--room-pink-pale);
+}
+.room-btn[data-room-id="chat-a"]:hover {
+  background: var(--room-pink-light);
+}
+
+.room-btn[data-room-id="chat-b"] {
+  border-color: var(--room-blue);
+  background: var(--room-blue-pale);
+}
+.room-btn[data-room-id="chat-b"]:hover {
+  background: var(--room-blue-light);
+}
+
+.room-btn[data-room-id="chat-c"] {
+  border-color: var(--room-orange);
+  background: var(--room-orange-pale);
+}
+.room-btn[data-room-id="chat-c"]:hover {
+  background: var(--room-orange-light);
+}
+
+.room-btn[data-room-id="chat-d"] {
+  border-color: var(--room-green);
+  background: var(--room-green-pale);
+}
+.room-btn[data-room-id="chat-d"]:hover {
+  background: var(--room-green-light);
 }
 
 .room-btn .room-name {
   display: block;
-  font-weight: bold;
+  font-weight: 400;
+  color: var(--grey-800);
 }
 
 .room-btn .room-players {
   display: block;
-  font-size: 14px;
-  color: var(--screen-accent);
+  font-size: 16px;
+  color: var(--text-secondary);
   margin-top: 2px;
 }
 
@@ -255,18 +374,20 @@ body {
 
 .room-btn.custom {
   border-style: dashed;
+  background: var(--grey-100);
+  border-color: var(--grey-400);
 }
 
 /* Custom Room Section */
 .custom-room-section {
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 2px dashed var(--screen-accent);
+  border-top: 1px dashed var(--border-color);
 }
 
 .custom-room-header {
-  font-size: 14px;
-  color: var(--screen-accent);
+  font-size: 16px;
+  color: var(--text-secondary);
   margin-bottom: 8px;
 }
 
@@ -278,18 +399,18 @@ body {
 .custom-room-form input {
   flex: 1;
   font-family: 'VT323', monospace;
-  font-size: 16px;
+  font-size: 18px;
   padding: 8px 12px;
-  border: 2px solid var(--ds-border);
-  border-radius: 4px;
-  background: var(--input-bg);
-  color: var(--screen-text);
+  border: 2px solid var(--border-color);
+  border-radius: var(--ds-radius);
+  background: var(--white);
+  color: var(--text-primary);
   min-height: var(--touch-min);
 }
 
 .custom-room-form input:focus {
   outline: none;
-  border-color: var(--screen-accent);
+  border-color: var(--accent);
 }
 
 /* Chat Header */
@@ -299,69 +420,79 @@ body {
   align-items: center;
   margin-bottom: 8px;
   padding-bottom: 8px;
-  border-bottom: 2px dashed var(--screen-accent);
+  border-bottom: 2px solid var(--accent-light);
 }
 
 .room-name {
-  font-family: 'Press Start 2P', cursive;
-  font-size: 12px;
-  color: var(--screen-darkest);
+  font-size: 22px;
+  color: var(--accent);
 }
 
-/* DS Button Style */
+/* Button Styles */
 .ds-btn {
   font-family: 'VT323', monospace;
-  font-size: 16px;
+  font-size: 18px;
   padding: 8px 14px;
-  border: 2px solid var(--ds-border);
-  border-radius: 4px;
-  background: var(--btn-bg);
-  color: var(--screen-text);
+  border: 2px solid var(--border-color);
+  border-radius: var(--ds-radius);
+  background: linear-gradient(180deg, var(--white) 0%, var(--grey-100) 100%);
+  color: var(--text-primary);
   cursor: pointer;
   transition: all 0.1s ease;
-  box-shadow: 0 2px 0 var(--ds-border);
-  min-height: var(--touch-min);
+  min-height: 36px;
   touch-action: manipulation;
 }
 
 .ds-btn:hover {
-  background: var(--btn-hover);
+  background: linear-gradient(180deg, var(--grey-100) 0%, var(--grey-200) 100%);
+  border-color: var(--grey-500);
 }
 
 .ds-btn:active {
-  transform: translateY(2px);
-  box-shadow: 0 0 0 var(--ds-border);
+  background: var(--grey-200);
+}
+
+.ds-btn.primary {
+  background: linear-gradient(180deg, var(--accent-light) 0%, var(--accent) 100%);
+  border-color: var(--accent);
+  color: var(--white);
+  text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+
+.ds-btn.primary:hover {
+  background: var(--accent);
 }
 
 .ds-btn.small {
-  font-size: 14px;
-  padding: 6px 10px;
-  min-height: 36px;
+  font-size: 16px;
+  padding: 4px 10px;
+  min-height: 28px;
 }
 
 /* Chat Log */
 .chat-log {
   height: 90px;
   overflow-y: auto;
-  background: var(--canvas-bg);
-  border: 2px solid var(--ds-border);
-  border-radius: 4px;
+  background: var(--accent-pale);
+  border: 1px solid var(--accent-light);
+  border-radius: var(--ds-radius);
   padding: 8px;
-  font-size: 15px;
-  line-height: 1.3;
+  font-size: 17px;
+  line-height: 1.4;
 }
 
 .chat-log::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 .chat-log::-webkit-scrollbar-track {
-  background: var(--input-bg);
+  background: var(--grey-200);
+  border-radius: 3px;
 }
 
 .chat-log::-webkit-scrollbar-thumb {
-  background: var(--screen-accent);
-  border-radius: 4px;
+  background: var(--accent);
+  border-radius: 3px;
 }
 
 .chat-message {
@@ -370,19 +501,30 @@ body {
 }
 
 .chat-message .timestamp {
-  color: var(--screen-accent);
-  font-size: 13px;
+  color: var(--grey-500);
+  font-size: 15px;
 }
 
 .chat-message .player-name {
-  font-weight: bold;
-  color: var(--screen-darkest);
+  font-weight: 400;
 }
 
+/* Player name colors */
+.player-name.color-red { color: var(--player-red); }
+.player-name.color-orange { color: var(--player-orange); }
+.player-name.color-yellow { color: var(--player-yellow); }
+.player-name.color-green { color: var(--player-green); }
+.player-name.color-cyan { color: var(--player-cyan); }
+.player-name.color-blue { color: var(--player-blue); }
+.player-name.color-purple { color: var(--player-purple); }
+.player-name.color-pink { color: var(--player-pink); }
+.player-name.color-brown { color: var(--player-brown); }
+.player-name.color-grey { color: var(--player-grey); }
+
 .chat-message.system {
-  color: var(--screen-accent);
+  color: var(--grey-500);
   font-style: italic;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 /* Players Bar */
@@ -397,43 +539,42 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 3px 8px;
-  background: var(--input-bg);
-  border: 1px solid var(--ds-border);
-  border-radius: 4px;
-  font-size: 13px;
+  padding: 3px 10px;
+  background: var(--grey-100);
+  border: 1px solid var(--grey-300);
+  border-radius: 12px;
+  font-size: 15px;
 }
 
 .player-indicator .player-dot {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--status-connected);
 }
 
 .player-indicator.drawing .player-dot {
   animation: pulse 0.5s infinite alternate;
+  background: var(--room-orange);
 }
 
 @keyframes pulse {
   from { opacity: 1; transform: scale(1); }
-  to { opacity: 0.5; transform: scale(1.3); }
+  to { opacity: 0.6; transform: scale(1.4); }
 }
 
 .player-indicator.self {
-  background: var(--btn-bg);
-  font-weight: bold;
+  background: var(--accent-light);
+  border-color: var(--accent);
 }
 
 /* Canvas Container */
 .canvas-container {
   position: relative;
-  background: var(--ds-border);
-  border-radius: 4px;
-  padding: 3px;
+  background: var(--grey-400);
+  border-radius: var(--ds-radius);
+  padding: 2px;
   margin-bottom: 8px;
-  
-  /* Prevent touch scrolling while drawing */
   touch-action: none;
 }
 
@@ -441,7 +582,7 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  background: #ffffff;
+  background: var(--white);
   border-radius: 2px;
   cursor: crosshair;
   touch-action: none;
@@ -451,11 +592,12 @@ body {
   position: absolute;
   top: 6px;
   right: 6px;
-  font-size: 11px;
-  color: var(--screen-accent);
-  background: rgba(255, 255, 255, 0.9);
-  padding: 3px 6px;
-  border-radius: 3px;
+  font-size: 14px;
+  color: var(--room-orange);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--room-orange-light);
   display: none;
 }
 
@@ -466,18 +608,19 @@ body {
 
 @keyframes blink {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  50% { opacity: 0.6; }
 }
 
-/* Tools Bar - Redesigned */
+/* Tools Bar */
 .tools-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 8px;
-  padding: 8px;
-  background: var(--input-bg);
-  border-radius: 4px;
+  padding: 10px;
+  background: var(--grey-100);
+  border: 1px solid var(--grey-300);
+  border-radius: var(--ds-radius);
   align-items: flex-start;
 }
 
@@ -491,12 +634,14 @@ body {
   flex-direction: row;
   margin-left: auto;
   align-self: flex-end;
+  gap: 6px;
 }
 
 .tool-label {
-  font-size: 12px;
-  color: var(--screen-accent);
-  font-weight: bold;
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .tool-picker,
@@ -510,36 +655,38 @@ body {
 .tool-btn {
   width: 32px;
   height: 32px;
-  border: 2px solid var(--ds-border);
-  border-radius: 4px;
-  background: var(--btn-bg);
+  border: 1px solid var(--grey-400);
+  border-radius: 3px;
+  background: var(--white);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 15px;
   transition: all 0.1s;
   touch-action: manipulation;
 }
 
 .tool-btn:hover {
-  background: var(--btn-hover);
+  background: var(--grey-100);
+  border-color: var(--grey-500);
 }
 
 .tool-btn.active {
-  background: var(--btn-active);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
-  border-color: var(--screen-darkest);
+  background: var(--accent-light);
+  border-color: var(--accent);
 }
 
+/* Color buttons */
 .color-btn {
   width: 26px;
   height: 26px;
-  border: 2px solid var(--ds-border);
-  border-radius: 4px;
+  border: 2px solid var(--white);
+  border-radius: 3px;
   cursor: pointer;
   transition: transform 0.1s;
   touch-action: manipulation;
+  box-shadow: 0 0 0 1px var(--grey-400);
 }
 
 .color-btn:hover {
@@ -547,17 +694,16 @@ body {
 }
 
 .color-btn.active {
-  border-color: #ffffff;
-  box-shadow: 0 0 0 2px var(--ds-border);
+  box-shadow: 0 0 0 2px var(--accent);
   transform: scale(1.1);
 }
 
 .size-btn {
   width: 32px;
   height: 32px;
-  border: 2px solid var(--ds-border);
-  border-radius: 4px;
-  background: var(--btn-bg);
+  border: 1px solid var(--grey-400);
+  border-radius: 3px;
+  background: var(--white);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -566,29 +712,28 @@ body {
 }
 
 .size-btn:hover {
-  background: var(--btn-hover);
+  background: var(--grey-100);
 }
 
 .size-btn.active {
-  background: var(--btn-active);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  background: var(--accent-light);
+  border-color: var(--accent);
 }
 
 .size-btn .dot {
-  background: var(--ds-border);
+  background: var(--grey-700);
   border-radius: 50%;
 }
 
-.size-btn .dot.s1 { width: 4px; height: 4px; }
+.size-btn .dot.s1 { width: 3px; height: 3px; }
 .size-btn .dot.s3 { width: 6px; height: 6px; }
-.size-btn .dot.s5 { width: 10px; height: 10px; }
-.size-btn .dot.s8 { width: 14px; height: 14px; }
-.size-btn .dot.s12 { width: 18px; height: 18px; }
+.size-btn .dot.s5 { width: 9px; height: 9px; }
+.size-btn .dot.s8 { width: 12px; height: 12px; }
+.size-btn .dot.s12 { width: 16px; height: 16px; }
 
 .action-btn {
-  font-size: 14px;
+  font-size: 16px;
   padding: 6px 10px;
-  min-height: 36px;
 }
 
 /* Message Bar */
@@ -600,27 +745,26 @@ body {
 #message-input {
   flex: 1;
   font-family: 'VT323', monospace;
-  font-size: 18px;
+  font-size: 20px;
   padding: 8px 12px;
-  border: 2px solid var(--ds-border);
-  border-radius: 4px;
-  background: var(--canvas-bg);
-  color: var(--screen-text);
+  border: 2px solid var(--grey-300);
+  border-radius: var(--ds-radius);
+  background: var(--white);
+  color: var(--text-primary);
   min-height: var(--touch-min);
 }
 
 #message-input:focus {
   outline: none;
-  border-color: var(--screen-accent);
+  border-color: var(--accent);
 }
 
 #message-input::placeholder {
-  color: var(--screen-accent);
-  opacity: 0.7;
+  color: var(--grey-500);
 }
 
 #send-btn {
-  min-width: 70px;
+  min-width: 65px;
 }
 
 /* Connection Status */
@@ -629,8 +773,8 @@ body {
   align-items: center;
   gap: 6px;
   margin-top: 8px;
-  font-size: 13px;
-  color: var(--screen-accent);
+  font-size: 15px;
+  color: var(--text-secondary);
 }
 
 .status-dot {
@@ -654,17 +798,17 @@ body {
   top: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(180deg, #a03030 0%, #802020 100%);
-  color: white;
-  padding: 12px 16px;
+  background: linear-gradient(180deg, var(--room-pink) 0%, var(--room-pink-light) 100%);
+  color: var(--grey-800);
+  padding: 10px 16px;
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   flex-wrap: wrap;
 }
 
@@ -673,10 +817,10 @@ body {
 }
 
 .reconnect-spinner {
-  width: 18px;
-  height: 18px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top-color: white;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: var(--white);
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -686,133 +830,41 @@ body {
 }
 
 .reconnect-queue {
-  font-size: 14px;
-  opacity: 0.9;
+  font-size: 15px;
+  opacity: 0.8;
 }
 
-/* Responsive - Tablet */
-@media (max-width: 600px) {
+/* Responsive */
+@media (max-width: 560px) {
   body {
     padding: 10px;
+    background-size: 12px 12px;
   }
   
-  .ds-frame {
-    padding: 12px;
-  }
-  
-  .title {
-    font-size: 18px;
-  }
-  
-  .tools-bar {
-    padding: 6px;
-    gap: 6px;
-  }
-  
-  .tool-group.actions {
-    width: 100%;
-    justify-content: flex-end;
-    margin-top: 4px;
-  }
+  .ds-frame { padding: 10px; }
+  .title { font-size: 30px; }
+  .tools-bar { padding: 8px; gap: 8px; }
+  .tool-group.actions { width: 100%; justify-content: flex-end; margin-top: 4px; }
 }
 
-/* Responsive - Mobile */
-@media (max-width: 420px) {
-  body {
-    padding: 6px;
-    align-items: flex-start;
-  }
-  
-  .ds-frame {
-    padding: 8px;
-    border-radius: 12px;
-  }
-  
-  .ds-hinge {
-    height: 16px;
-    margin: 6px -8px;
-  }
-  
-  .ds-screen .screen-content {
-    padding: 8px;
-    min-height: 140px;
-  }
-  
-  .title {
-    font-size: 16px;
-  }
-  
-  .subtitle {
-    font-size: 14px;
-  }
-  
-  .room-list {
-    grid-template-columns: 1fr;
-    max-height: 150px;
-  }
-  
-  .room-btn {
-    padding: 10px 8px;
-    font-size: 16px;
-  }
-  
-  .chat-log {
-    height: 70px;
-    font-size: 14px;
-  }
-  
-  .player-setup {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .player-setup input {
-    width: 100%;
-  }
-  
-  .tool-label {
-    font-size: 11px;
-  }
-  
-  .tool-btn {
-    width: 28px;
-    height: 28px;
-    font-size: 12px;
-  }
-  
-  .color-btn {
-    width: 22px;
-    height: 22px;
-  }
-  
-  .size-btn {
-    width: 28px;
-    height: 28px;
-  }
-  
-  .action-btn {
-    font-size: 12px;
-    padding: 4px 8px;
-  }
-  
-  #message-input {
-    font-size: 16px;
-  }
+@media (max-width: 400px) {
+  body { padding: 6px; align-items: flex-start; }
+  .ds-frame { padding: 8px; border-radius: 10px; }
+  .ds-hinge { height: 14px; margin: 6px -8px; }
+  .ds-screen .screen-content { padding: 10px; min-height: 130px; }
+  .title { font-size: 26px; }
+  .room-list { grid-template-columns: 1fr; max-height: 140px; }
+  .chat-log { height: 70px; font-size: 15px; }
+  .tool-btn, .size-btn { width: 28px; height: 28px; }
+  .color-btn { width: 22px; height: 22px; }
 }
 
-/* Prevent iOS input zoom */
-@media screen and (max-width: 600px) {
-  input, textarea, select {
-    font-size: 16px !important;
-  }
+@media screen and (max-width: 560px) {
+  input, textarea, select { font-size: 16px !important; }
 }
 
-/* Safe area for notched phones */
 @supports (padding-top: env(safe-area-inset-top)) {
-  .reconnect-banner {
-    padding-top: calc(12px + env(safe-area-inset-top));
-  }
-  
+  .reconnect-banner { padding-top: calc(10px + env(safe-area-inset-top)); }
   body {
     padding-left: calc(6px + env(safe-area-inset-left));
     padding-right: calc(6px + env(safe-area-inset-right));

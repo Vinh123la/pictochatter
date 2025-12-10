@@ -14,7 +14,7 @@ const initSqlJs = require('sql.js');
 const fs = require('fs');
 const path = require('path');
 
-const DB_PATH = path.join(__dirname, '../data/pictochat.db');
+const DB_PATH = path.join(__dirname, '../data/pictochatter.db');
 
 let db = null;
 
@@ -74,11 +74,19 @@ function createTables() {
       room_id TEXT NOT NULL,
       player_id TEXT NOT NULL,
       player_name TEXT NOT NULL,
+      player_color TEXT DEFAULT 'blue',
       message TEXT NOT NULL,
       timestamp INTEGER NOT NULL,
       FOREIGN KEY(room_id) REFERENCES rooms(id)
     )
   `);
+  
+  // Migration: Add player_color column if it doesn't exist
+  try {
+    db.run(`ALTER TABLE chat_messages ADD COLUMN player_color TEXT DEFAULT 'blue'`);
+  } catch (e) {
+    // Column already exists, ignore error
+  }
   
   db.run(`
     CREATE TABLE IF NOT EXISTS canvas_snapshots (
@@ -176,12 +184,12 @@ function deleteRoom(roomId) {
 // Chat Message Operations
 // =============================================================================
 
-function addChatMessage(roomId, playerId, playerName, message, timestamp) {
+function addChatMessage(roomId, playerId, playerName, playerColor, message, timestamp) {
   const stmt = db.prepare(`
-    INSERT INTO chat_messages (room_id, player_id, player_name, message, timestamp)
-    VALUES (?, ?, ?, ?, ?)
+    INSERT INTO chat_messages (room_id, player_id, player_name, player_color, message, timestamp)
+    VALUES (?, ?, ?, ?, ?, ?)
   `);
-  stmt.run([roomId, playerId, playerName, message, timestamp]);
+  stmt.run([roomId, playerId, playerName, playerColor || 'blue', message, timestamp]);
   stmt.free();
 }
 
@@ -204,6 +212,7 @@ function getChatHistory(roomId, limit = 50) {
   return results.reverse().map(row => ({
     playerId: row.player_id,
     playerName: row.player_name,
+    playerColor: row.player_color || 'blue',
     text: row.message,
     timestamp: row.timestamp
   }));

@@ -1,5 +1,5 @@
 /**
- * PictoChat Clone - Main Application
+ * PictoChatter - Main Application
  * 
  * Features:
  * - Multiple drawing tools (pen, brush, line, rect, circle, fill, eraser)
@@ -20,9 +20,11 @@ const state = {
   isConnected: false,
   playerId: generateId(),
   playerName: 'Player',
+  playerColor: 'blue', // Player's chosen name color
   
   // Room
   currentRoom: null,
+  currentRoomTheme: 'blue', // pink, blue, orange, green
   activePlayers: [],
   
   // Canvas
@@ -95,6 +97,7 @@ const elements = {
   roomSelectScreen: document.getElementById('room-select-screen'),
   chatScreen: document.getElementById('chat-screen'),
   playerNameInput: document.getElementById('player-name-input'),
+  playerColorBtns: document.querySelectorAll('.player-color-btn'),
   roomList: document.getElementById('room-list'),
   customRoomName: document.getElementById('custom-room-name'),
   createRoomBtn: document.getElementById('create-room-btn'),
@@ -300,22 +303,30 @@ function joinRoom(roomId) {
   state.eventQueue = [];
   state.lastEventTimestamp = 0;
   
+  // Set room theme based on room ID
+  setRoomTheme(roomId);
+  
   send({
     type: 'join',
     roomId,
     playerId: state.playerId,
-    playerName: state.playerName
+    playerName: state.playerName,
+    playerColor: state.playerColor
   });
 }
 
 function rejoinRoom() {
   console.log('[WS] Rejoining room with queue:', state.eventQueue.length, 'events');
   
+  // Restore room theme
+  setRoomTheme(state.currentRoom);
+  
   send({
     type: 'rejoin',
     roomId: state.currentRoom,
     playerId: state.playerId,
     playerName: state.playerName,
+    playerColor: state.playerColor,
     lastEventTimestamp: state.lastEventTimestamp
   });
   
@@ -343,6 +354,9 @@ function leaveRoom() {
     state.snapshotInterval = null;
   }
   
+  // Remove room theme
+  document.body.classList.remove('room-theme-pink', 'room-theme-blue', 'room-theme-orange', 'room-theme-green');
+  
   clearCanvas();
   
   elements.chatScreen.classList.remove('active');
@@ -350,6 +364,30 @@ function leaveRoom() {
   
   if (state.ws) state.ws.close();
   setTimeout(connect, 100);
+}
+
+function setRoomTheme(roomId) {
+  // Remove existing theme classes
+  document.body.classList.remove('room-theme-pink', 'room-theme-blue', 'room-theme-orange', 'room-theme-green');
+  
+  // Set theme based on room
+  if (roomId === 'chat-a') {
+    state.currentRoomTheme = 'pink';
+    document.body.classList.add('room-theme-pink');
+  } else if (roomId === 'chat-b') {
+    state.currentRoomTheme = 'blue';
+    document.body.classList.add('room-theme-blue');
+  } else if (roomId === 'chat-c') {
+    state.currentRoomTheme = 'orange';
+    document.body.classList.add('room-theme-orange');
+  } else if (roomId === 'chat-d') {
+    state.currentRoomTheme = 'green';
+    document.body.classList.add('room-theme-green');
+  } else {
+    // Custom rooms default to blue
+    state.currentRoomTheme = 'blue';
+    document.body.classList.add('room-theme-blue');
+  }
 }
 
 function handleRoomState(message) {
@@ -415,6 +453,7 @@ function handleUserJoined(message) {
   state.activePlayers.push({
     playerId: message.playerId,
     playerName: message.playerName,
+    playerColor: message.playerColor || 'blue',
     isDrawing: false
   });
   renderPlayers();
@@ -430,12 +469,14 @@ function handleUserLeft(message) {
 }
 
 function renderPlayers() {
-  elements.playersBar.innerHTML = state.activePlayers.map(player => `
+  elements.playersBar.innerHTML = state.activePlayers.map(player => {
+    const colorClass = player.playerColor ? `color-${player.playerColor}` : 'color-blue';
+    return `
     <div class="player-indicator ${player.isDrawing ? 'drawing' : ''} ${player.playerId === state.playerId ? 'self' : ''}">
       <span class="player-dot"></span>
-      <span>${escapeHtml(player.playerName)}${player.playerId === state.playerId ? ' (you)' : ''}</span>
-    </div>
-  `).join('');
+      <span class="player-name ${colorClass}">${escapeHtml(player.playerName)}${player.playerId === state.playerId ? ' (you)' : ''}</span>
+    </div>`;
+  }).join('');
 }
 
 // =============================================================================
@@ -901,10 +942,11 @@ function renderChatLog() {
       return `<div class="chat-message system">${escapeHtml(msg.text)}</div>`;
     }
     const isSelf = msg.playerId === state.playerId;
+    const colorClass = msg.playerColor ? `color-${msg.playerColor}` : 'color-blue';
     return `
       <div class="chat-message">
         <span class="timestamp">[${formatTime(msg.timestamp)}]</span>
-        <span class="player-name">${escapeHtml(msg.playerName)}${isSelf ? ' (you)' : ''}:</span>
+        <span class="player-name ${colorClass}">${escapeHtml(msg.playerName)}${isSelf ? ' (you)' : ''}:</span>
         ${escapeHtml(msg.text)}
       </div>
     `;
@@ -964,6 +1006,41 @@ function updateQueueIndicator() {
 // =============================================================================
 
 function initTools() {
+  // Player color picker (for name color)
+  elements.playerColorBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      elements.playerColorBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.playerColor = btn.dataset.color;
+      // Save to localStorage for persistence
+      localStorage.setItem('pictochatter-player-color', state.playerColor);
+    });
+  });
+  
+  // Load saved player color
+  const savedColor = localStorage.getItem('pictochatter-player-color');
+  if (savedColor) {
+    state.playerColor = savedColor;
+    elements.playerColorBtns.forEach(b => b.classList.remove('active'));
+    const colorBtn = document.querySelector(`.player-color-btn[data-color="${savedColor}"]`);
+    if (colorBtn) colorBtn.classList.add('active');
+  }
+  
+  // Load saved player name
+  const savedName = localStorage.getItem('pictochatter-player-name');
+  if (savedName) {
+    state.playerName = savedName;
+    elements.playerNameInput.value = savedName;
+  }
+  
+  // Save player name on change
+  elements.playerNameInput.addEventListener('change', () => {
+    const name = elements.playerNameInput.value.trim();
+    if (name) {
+      localStorage.setItem('pictochatter-player-name', name);
+    }
+  });
+  
   // Tool picker
   elements.toolBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1031,7 +1108,7 @@ function initTools() {
 // =============================================================================
 
 function init() {
-  console.log('[App] Initializing PictoChat...');
+  console.log('[App] Initializing PictoChatter...');
   
   initCanvas();
   clearCanvas();

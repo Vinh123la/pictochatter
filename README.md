@@ -1,4 +1,4 @@
-# PictoChat Clone
+# PictoChatter
 
 A real-time collaborative drawing and messaging application inspired by Nintendo DS PictoChat. Built to explore **distributed systems patterns**, **real-time synchronization**, and **persistent messaging** - core concepts in enterprise architecture.
 
@@ -6,10 +6,6 @@ A real-time collaborative drawing and messaging application inspired by Nintendo
 ![WebSocket](https://img.shields.io/badge/WebSocket-010101?style=flat&logo=socketdotio&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat&logo=sqlite&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
-
-<p align="center">
-  <img src="docs/screenshot.png" alt="PictoChat Clone Screenshot" width="500">
-</p>
 
 ## Why This Project?
 
@@ -36,11 +32,11 @@ This project demonstrates practical implementations of patterns used in enterpri
 |------|-------------|
 | ✏️ Pen | Freehand drawing |
 | 🖌️ Brush | Thicker strokes |
-| 📏 Line | Straight lines |
+| ╱ Line | Straight lines |
 | ▢ Rectangle | Rectangle shapes |
 | ○ Circle | Circles/ellipses |
 | 🪣 Fill | Flood fill algorithm |
-| 🧽 Eraser | Erase content |
+| ✕ Eraser | Erase content |
 
 ### Technical Features
 - **8 Colors & 5 Brush Sizes** - Customizable drawing options
@@ -85,7 +81,7 @@ This project demonstrates practical implementations of patterns used in enterpri
 |------------|---------|
 | **Vanilla JavaScript** | No framework overhead, direct DOM/Canvas manipulation |
 | **HTML5 Canvas API** | 2D drawing surface with immediate mode rendering |
-| **CSS3** | Responsive layout, Nintendo DS-inspired aesthetic |
+| **CSS3** | Responsive layout, DS-inspired aesthetic |
 
 ### Data Flow
 
@@ -214,8 +210,8 @@ CREATE TABLE drawing_events (
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/pictochat-clone.git
-cd pictochat-clone
+git clone https://github.com/YOUR_USERNAME/pictochatter.git
+cd pictochatter
 
 # Install dependencies
 npm install
@@ -236,17 +232,19 @@ npm start
 ## Project Structure
 
 ```
-pictochat-clone/
+pictochatter/
 ├── backend/
 │   ├── server.js        # Express + WebSocket server, event handling
 │   ├── roomManager.js   # Room state, player management
 │   └── db.js            # SQLite operations, persistence layer
 ├── frontend/
 │   ├── index.html       # UI structure, dual-screen DS layout
-│   ├── styles.css       # Nintendo DS aesthetic, responsive design
+│   ├── styles.css       # Clean white/grey aesthetic with pastel accents
 │   └── app.js           # Client logic, canvas, WebSocket client
 ├── data/
-│   └── pictochat.db     # SQLite database (auto-created)
+│   └── pictochatter.db  # SQLite database (auto-created)
+├── docs/
+│   └── screenshot.png   # Project screenshot
 ├── package.json
 ├── .env                 # Configuration (PORT=5000)
 ├── LICENSE              # MIT License
@@ -284,7 +282,7 @@ pictochat-clone/
 npm run dev  # Auto-restart on file changes (Node 18+)
 ```
 
-### Future Production Deployment
+### Production Deployment
 
 **Option 1: Railway (Recommended for simplicity)**
 1. Push to GitHub
@@ -306,7 +304,7 @@ CMD ["npm", "start"]
 ```bash
 # On your server
 git clone <repo>
-cd pictochat-clone
+cd pictochatter
 npm install --production
 PORT=80 node backend/server.js
 ```
